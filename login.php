@@ -2,8 +2,9 @@
 require_once 'includes/seguridad.php';
 require_once 'conexion.php';
 
+// Página a la que volver tras entrar: la guarda requiereLogin() en la sesión.
 // Solo se vuelve a páginas propias del sitio, nunca a otro dominio
-$volver = $_POST['volver'] ?? $_GET['volver'] ?? 'listar.php';
+$volver = $_SESSION['volver'] ?? 'listar.php';
 if (!is_string($volver) || !preg_match('/^[a-z_]+\.php(\?\S*)?$/', $volver)) {
     $volver = 'listar.php';
 }
@@ -28,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($hash && password_verify($clave, $hash)) {
         session_regenerate_id(true); // sesión nueva al entrar: evita la fijación de sesión
         $_SESSION['usuario'] = $usuario;
-        unset($_SESSION['csrf']);
+        unset($_SESSION['csrf'], $_SESSION['volver']);
         header('Location: ' . $volver);
         exit;
     }
@@ -69,7 +70,6 @@ require 'includes/header.php';
                     <?php endif; ?>
                     <form action="login.php" method="post" class="needs-validation" novalidate>
                         <?= campoCsrf() ?>
-                        <input type="hidden" name="volver" value="<?= htmlspecialchars($volver) ?>">
                         <div class="mb-3">
                             <label for="usuario" class="form-label">Usuario</label>
                             <div class="input-group">

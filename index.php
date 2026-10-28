@@ -89,7 +89,7 @@ require 'includes/header.php';
                 [$resumen['devueltos'], 'Libros devueltos'],
             ];
             foreach ($numeros as $i => [$valor, $etiqueta]): ?>
-                <div class="col-6 col-lg-3 reveal" style="transition-delay: <?= $i * 0.1 ?>s">
+                <div class="col-6 col-lg-3 reveal retraso-<?= $i % 4 ?>">
                     <div class="numero-valor" data-contador="<?= (int) $valor ?>"><?= (int) $valor ?></div>
                     <div class="numero-etiqueta"><?= $etiqueta ?></div>
                 </div>
@@ -150,7 +150,7 @@ require 'includes/header.php';
         <div class="row g-4 g-lg-5">
             <?php foreach ($destacados as $i => [$isbn, $libro, $autor, $genero, $etiqueta]):
                 $pedir = 'registrar.php?' . http_build_query(['libro' => $libro, 'autor' => $autor, 'isbn' => $isbn]); ?>
-                <div class="col-6 col-md-4 col-lg-3 libro-col reveal" data-genero="<?= $genero ?>" style="transition-delay: <?= ($i % 4) * 0.08 ?>s">
+                <div class="col-6 col-md-4 col-lg-3 libro-col reveal retraso-<?= $i % 4 ?>" data-genero="<?= $genero ?>">
                     <div class="libro-card">
                         <div class="position-relative">
                             <?= portada($isbn, $libro, $autor) ?>
@@ -192,7 +192,7 @@ require 'includes/header.php';
         </div>
         <div class="row g-4">
             <?php foreach ($recientes as $i => $r): ?>
-                <div class="col-md-6 col-xl-3 reveal" style="transition-delay: <?= $i * 0.08 ?>s">
+                <div class="col-md-6 col-xl-3 reveal retraso-<?= $i % 4 ?>">
                     <div class="prestamo-item h-100">
                         <?= portada($r['isbn'], $r['titulo_libro'], $r['autor_libro'], 'portada-sm') ?>
                         <div class="flex-grow-1 min-w-0">
@@ -278,20 +278,6 @@ require 'includes/header.php';
 </section>
 
 <?php
-$scripts = <<<'JS'
-<script>
-    // Filtro de la colección destacada por género
-    document.querySelectorAll('#generos .nav-link').forEach(boton => {
-        boton.addEventListener('click', () => {
-            document.querySelectorAll('#generos .nav-link').forEach(b => b.classList.remove('active'));
-            boton.classList.add('active');
-            const genero = boton.dataset.genero;
-            document.querySelectorAll('.libro-col').forEach(col => {
-                col.classList.toggle('d-none', genero !== 'todos' && col.dataset.genero !== genero);
-            });
-        });
-    });
-</script>
-JS;
+$script = 'js/inicio.js';
 require 'includes/footer.php';
 ?>

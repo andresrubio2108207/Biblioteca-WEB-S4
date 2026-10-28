@@ -13,16 +13,15 @@ $plantilla = 'startbootstrap-one-page-wonder-gh-pages';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?= htmlspecialchars($titulo) ?> | Letras Vivas</title>
-    <!-- Fuentes de la plantilla -->
-    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    <!-- Fuentes de la plantilla, servidas desde el sitio (Google Fonts no permite el atributo integrity) -->
+    <link href="<?= recurso('fuentes/fuentes.css') ?>" rel="stylesheet">
     <!-- Estilos de la plantilla (incluye Bootstrap) -->
-    <link href="<?= $plantilla ?>/css/styles.css" rel="stylesheet">
+    <link href="<?= recurso($plantilla . '/css/styles.css') ?>" rel="stylesheet">
     <!-- integrity: el navegador rechaza el archivo si el CDN lo entrega modificado -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
-    <?php // ?v= cambia cada vez que se modifica estilo.css, así el navegador no usa una copia vieja en caché ?>
-    <link rel="stylesheet" href="estilo.css?v=<?= filemtime(__DIR__ . '/../estilo.css') ?>">
-    <script>document.documentElement.classList.add('js');</script>
+    <link rel="stylesheet" href="<?= recurso('estilo.css') ?>">
+    <!-- Sin scripts en línea: la política CSP solo permite archivos .js del propio sitio -->
+    <script src="<?= recurso('js/temprano.js') ?>"></script>
 </head>
 <body id="page-top">
     <!-- Navegación -->
