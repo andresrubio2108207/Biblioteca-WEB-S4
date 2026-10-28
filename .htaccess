@@ -16,3 +16,12 @@ Options -Indexes
 
 # Carpetas internas: piezas de páginas, código antiguo y el entorno de Python
 RedirectMatch 404 /(includes|_original|\.venv)(/|$)
+
+# Cabeceras de seguridad para lo que no pasa por PHP (css, js, fuentes, imágenes y páginas de error).
+# Las páginas .php envían las suyas desde includes/seguridad.php; la condición -z evita repetirlas.
+# CSP 'none': un archivo estático no necesita cargar nada por su cuenta.
+<IfModule headers_module>
+    Header always set X-Content-Type-Options "nosniff" "expr=-z resp('X-Content-Type-Options')"
+    Header always set Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'" "expr=-z resp('Content-Security-Policy')"
+    Header always set X-Frame-Options "DENY" "expr=-z resp('X-Frame-Options')"
+</IfModule>

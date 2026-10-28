@@ -1,4 +1,11 @@
 <?php
+// Ruta de un archivo propio (css/js) con ?v= según su contenido: cambia al modificarlo, así el navegador
+// no usa una copia vieja en caché. Es un resumen del archivo, no su fecha, para no revelar marcas de tiempo.
+function recurso(string $ruta): string
+{
+    return $ruta . '?v=' . substr(md5_file(__DIR__ . '/../' . $ruta), 0, 8);
+}
+
 // Devuelve la insignia (badge) de Bootstrap que corresponde a cada estado de préstamo
 function badgeEstado(string $estado): string
 {
@@ -14,7 +21,8 @@ function badgeEstado(string $estado): string
 }
 
 // Portada real del libro (Open Library, buscada por ISBN). Si no existe imagen,
-// queda visible una portada dibujada con CSS que muestra el título y el autor.
+// queda visible una portada dibujada con CSS que muestra el título y el autor
+// (js/temprano.js quita la imagen rota, porque la CSP no permite atributos onerror).
 function portada(string $isbn, string $titulo, string $autor = '', string $clase = ''): string
 {
     $tono = 'tono-' . (abs(crc32($titulo)) % 5 + 1);
@@ -22,7 +30,7 @@ function portada(string $isbn, string $titulo, string $autor = '', string $clase
     return '<div class="portada ' . $clase . ' ' . $tono . '">'
         . '<div class="portada-respaldo"><span class="portada-titulo">' . htmlspecialchars($titulo) . '</span>'
         . '<span class="portada-autor">' . htmlspecialchars($autor) . '</span></div>'
-        . '<img src="' . $url . '" alt="Portada de ' . htmlspecialchars($titulo) . '" loading="lazy" onerror="this.remove()">'
+        . '<img src="' . $url . '" alt="Portada de ' . htmlspecialchars($titulo) . '" loading="lazy">'
         . '</div>';
 }
 

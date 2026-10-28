@@ -11,7 +11,22 @@ error_reporting(E_ALL);
 // el navegador no adivina tipos de archivo y no se anuncia la versión de PHP
 header_remove('X-Powered-By');
 header('X-Frame-Options: DENY');
-header("Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'");
+// CSP: cada tipo de recurso solo se carga de los orígenes listados. Sin 'unsafe-inline': no se ejecuta
+// ningún <script>, onclick= ni style= escrito dentro del HTML, así un texto inyectado no puede correr código.
+// Del CDN solo se aceptan las carpetas de Bootstrap e iconos; las portadas vienen de Open Library
+// (que redirige a archive.org) y las fotos de Unsplash.
+header('Content-Security-Policy: ' . implode('; ', [
+    "default-src 'self'",
+    "script-src 'self' https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/",
+    "style-src 'self' https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/",
+    "font-src 'self' https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/",
+    "img-src 'self' data: https://images.unsplash.com https://covers.openlibrary.org https://archive.org https://*.us.archive.org",
+    "connect-src 'self'",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "object-src 'none'",
+]));
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: same-origin');
 
@@ -31,7 +46,8 @@ function usuarioActual(): ?string
     return $_SESSION['usuario'] ?? null;
 }
 
-// Corta la página si no hay sesión y manda al login, recordando a qué página quería ir
+// Corta la página si no hay sesión y manda al login, recordando a qué página quería ir.
+// Esa página se guarda en la sesión y no en la URL, así el login nunca repite en su HTML algo que llegó en la petición.
 function requiereLogin(): void
 {
     if (usuarioActual() === null) {
@@ -40,7 +56,8 @@ function requiereLogin(): void
             $consulta = $_SERVER['QUERY_STRING'] ?? '';
             $volver = basename($_SERVER['SCRIPT_NAME']) . ($consulta !== '' ? '?' . $consulta : '');
         }
-        header('Location: login.php?volver=' . urlencode($volver));
+        $_SESSION['volver'] = $volver;
+        header('Location: login.php');
         exit;
     }
     // Las páginas con datos de socios no se guardan en la caché del navegador
