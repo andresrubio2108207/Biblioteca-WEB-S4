@@ -1,0 +1,256 @@
+:root {
+    --bg-primary: #f6faf7;
+    --bg-secondary: #eafaf1;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --primary: #0f766e;
+    --primary-dark: #115e59;
+    --accent: #d97706;
+    --success: #16a34a;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #d8e6e0;
+    --shadow: 0 20px 45px rgba(15, 118, 110, 0.14);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+    color: var(--text);
+}
+
+.page-shell {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.form-card,
+.container,
+.status-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(6px);
+}
+
+.form-card {
+    max-width: 620px;
+    margin: 32px auto;
+    padding: 32px 28px;
+}
+
+.page-title {
+    margin: 0 0 24px;
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 18px 24px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-field.full-width {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--text);
+    font-size: 0.98rem;
+    transition: all 0.2s ease;
+}
+
+input::placeholder {
+    color: #9ca3af;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
+    background: #f9faff;
+}
+
+button,
+.btn-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+button {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    width: 100%;
+    margin-top: 18px;
+    box-shadow: 0 12px 22px rgba(15, 118, 110, 0.25);
+}
+
+button:hover,
+.btn-link:hover {
+    transform: translateY(-1px);
+}
+
+button:hover {
+    box-shadow: 0 16px 28px rgba(15, 118, 110, 0.32);
+}
+
+.btn-link {
+    background: #fff;
+    color: var(--primary-dark);
+    border: 1px solid rgba(15, 118, 110, 0.18);
+    margin-top: 20px;
+}
+
+.btn-link:hover {
+    background: #f3f4ff;
+}
+
+.actions {
+    text-align: center;
+    margin-top: 18px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.header h2 {
+    margin: 0;
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    color: var(--primary-dark);
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: #fff;
+}
+
+table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #edf2f7;
+    vertical-align: middle;
+}
+
+th {
+    background: linear-gradient(135deg, #1f2937, #374151);
+    color: #fff;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background: #f9fafc;
+}
+
+tr:hover {
+    background: #eef4ff;
+}
+
+.sin-datos {
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+    padding: 28px 18px;
+}
+
+.status-card {
+    max-width: 520px;
+    margin: 80px auto;
+    padding: 32px 28px;
+    text-align: center;
+}
+
+.status-card h3 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    color: var(--success);
+    font-size: 1.8rem;
+}
+
+.status-card p {
+    margin: 0 0 20px;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.status-card .btn-link {
+    margin-top: 0;
+}
+
+@media (max-width: 760px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-link,
+    button {
+        width: 100%;
+    }
+}

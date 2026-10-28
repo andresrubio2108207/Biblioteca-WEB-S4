@@ -1,0 +1,18 @@
+# Sin listado de carpetas: una carpeta sin index.php da error en vez de mostrar sus archivos
+Options -Indexes
+
+# PHP nunca muestra errores en pantalla, aunque una página no cargue includes/seguridad.php
+<IfModule php_module>
+    php_flag display_errors Off
+</IfModule>
+
+# Archivos que no son páginas: respaldos de la base de datos, registros y configuración
+<FilesMatch "\.(sql|bak|log|ini)$">
+    Require all denied
+</FilesMatch>
+<Files "conexion.php">
+    Require all denied
+</Files>
+
+# Carpetas internas: piezas de páginas, código antiguo y el entorno de Python
+RedirectMatch 404 /(includes|_original|\.venv)(/|$)
